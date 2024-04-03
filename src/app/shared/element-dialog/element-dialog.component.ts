@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { TelephoneList } from '../../app.component';
+import { TelephoneList } from '../../models/TelephoneList';
 
 import {
       MatDialog,

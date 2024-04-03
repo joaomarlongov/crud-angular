@@ -13,15 +13,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
+import { HttpClientModule } from '@angular/common/http';
+import { TelephoneList } from './models/TelephoneList';
+import { TelephoneListService } from './services/telephoneList.service';
 
 
 
-export interface TelephoneList {
-  position: number;
-  name: string;
-  number: string;
-  action: string;
-}
+
 
 const ELEMENT_DATA: TelephoneList[] = [
   {position: 1, name: 'João', number: "27999798888", action: ''},
@@ -50,9 +48,11 @@ const ELEMENT_DATA: TelephoneList[] = [
   MatFormFieldModule,
   FormsModule,
   MatInputModule,
+  HttpClientModule
 ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers: [TelephoneListService]
   
 })
 export class AppComponent{
@@ -60,9 +60,17 @@ export class AppComponent{
   @ViewChild(MatTable)
   table!: MatTable<any>
   displayedColumns: string[] = ['position', 'name', 'number', 'action'];
-  dataSource = ELEMENT_DATA;
+  dataSource!: TelephoneList[];
   
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    public telephoneListService: TelephoneListService
+    ){
+      this.telephoneListService.getTel()
+      .subscribe((data: TelephoneList[]) =>{
+        this.dataSource = data;
+      })
+    }
 
   openDialog(element: TelephoneList | null): void {
     const dialogRef = this.dialog.open(ElementDialogComponent, {
