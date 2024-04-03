@@ -49,7 +49,7 @@ export class ElementDialogComponent {
 
 
   ngOnInit(): void{
-    if(this.data.position != null){
+    if(this.data.ordem != null){
       this.isChange = true;
     } else{
       this.isChange = false;

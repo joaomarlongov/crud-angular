@@ -21,15 +21,14 @@ import { TelephoneListService } from './services/telephoneList.service';
 
 
 
-const ELEMENT_DATA: TelephoneList[] = [
-  {position: 1, name: 'João', number: "27999798888", action: ''},
-  {position: 2, name: 'Maria', number: "27999798888", action: ''},
-  {position: 3, name: 'Fernanda', number: "27999798888", action: ''},
-  {position: 4, name: 'Larissa', number: "27999798888", action: ''},
-  {position: 5, name: 'Josué', number: "27999798888", action: ''},
-  {position: 6, name: 'Lincoln', number:"27999798888", action: ''},
-  
-];
+// const ELEMENT_DATA: TelephoneList[] = [
+//   {order: "1", field_1977253: 'João', field_1977254: "27999798888",},
+//   {order: "2", field_1977253: 'Maria', field_1977254: "27999798888",},
+//   {order: "3", field_1977253: 'Fernanda', field_1977254: "27999798888",},
+//   {order: "4", field_1977253: 'Larissa', field_1977254: "27999798888",},
+//   {order: "5", field_1977253: 'Josué', field_1977254: "27999798888",},
+//   {order: `6`, field_1977253: 'Lincoln', field_1977254:"27999798888"},
+// ];
 
 
 
@@ -48,7 +47,7 @@ const ELEMENT_DATA: TelephoneList[] = [
   MatFormFieldModule,
   FormsModule,
   MatInputModule,
-  HttpClientModule
+  HttpClientModule,
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -59,7 +58,7 @@ export class AppComponent{
   title = 'crud-angular';
   @ViewChild(MatTable)
   table!: MatTable<any>
-  displayedColumns: string[] = ['position', 'name', 'number', 'action'];
+  displayedColumns: string[] = ['ordem', 'name', 'number',];
   dataSource!: TelephoneList[];
   
   constructor(
@@ -68,6 +67,7 @@ export class AppComponent{
     ){
       this.telephoneListService.getTel()
       .subscribe((data: TelephoneList[]) =>{
+        console.log(data)
         this.dataSource = data;
       })
     }
@@ -76,11 +76,12 @@ export class AppComponent{
     const dialogRef = this.dialog.open(ElementDialogComponent, {
       width: "300px",
       data: element === null ? {
-        position: null,
+        ordem: null,
         name: "",
         number:"",
       }: {
-        position: element.position,
+        id: element.id,
+        ordem: element.ordem,
         name: element.name,
         number: element.number,
       }
@@ -88,8 +89,8 @@ export class AppComponent{
 
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined){
-        if(this.dataSource.map(p => p.position).includes(result.position)){
-          this.dataSource[result.position - 1] = result;
+        if(this.dataSource.map(p => p.id).includes(result.id)){
+          this.dataSource[result.id - 1] = result;
           this.table.renderRows();
         } else {
           this.dataSource.push(result);
@@ -99,8 +100,9 @@ export class AppComponent{
     });
   }
 
-  deleteItem(position: number): void{
-    this.dataSource = this.dataSource.filter(p => p.position !== position)
+ 
+  deleteItem(ordem: number ): void{
+    this.dataSource = this.dataSource.filter(p => p.id !== ordem)
   }
 
   editItem(element: TelephoneList):void {

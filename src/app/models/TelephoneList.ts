@@ -1,6 +1,6 @@
 export interface TelephoneList {
-    position: number;
+    id:number
+    ordem: string;
     name: string;
     number: string;
-    action: string;
   }
