@@ -1,0 +1,29 @@
+<h2  *ngIf="!isChange" mat-dialog-title>Informações</h2>
+<h2  *ngIf="isChange" mat-dialog-title>Editar Informações</h2>
+
+
+<mat-dialog-content>
+
+  <mat-form-field>
+    <mat-label>Posição</mat-label>
+    <input matInput [(ngModel)]="data.position">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Nome</mat-label>
+    <input matInput [(ngModel)]="data.name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Número</mat-label>
+    <input matInput [(ngModel)]="data.number">
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Voltar</button>
+  <button mat-button  *ngIf="!isChange" [mat-dialog-close]="data" cdkFocusInitial>Adicionar</button>
+  <button mat-button  *ngIf="isChange" [mat-dialog-close]="data" cdkFocusInitial>Editar</button>
+
+</mat-dialog-actions>
