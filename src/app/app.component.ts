@@ -58,7 +58,7 @@ export class AppComponent{
   title = 'crud-angular';
   @ViewChild(MatTable)
   table!: MatTable<any>
-  displayedColumns: string[] = ['ordem', 'name', 'number',];
+  displayedColumns: string[] = ['field_1984977', 'field_1977253', 'field_1977254', "action"];
   dataSource!: TelephoneList[];
   
   constructor(
@@ -66,9 +66,9 @@ export class AppComponent{
     public telephoneListService: TelephoneListService
     ){
       this.telephoneListService.getTel()
-      .subscribe((data: TelephoneList[]) =>{
-        console.log(data)
-        this.dataSource = data;
+      .subscribe((data: any) =>{
+        console.log(data.results)
+        this.dataSource = data.results ;
       })
     }
 
@@ -76,14 +76,14 @@ export class AppComponent{
     const dialogRef = this.dialog.open(ElementDialogComponent, {
       width: "300px",
       data: element === null ? {
-        ordem: null,
-        name: "",
-        number:"",
+        field_1984977: null,
+        field_1977253: "",
+        field_1977254:"",
       }: {
         id: element.id,
-        ordem: element.ordem,
-        name: element.name,
-        number: element.number,
+        field_1984977: element.field_1984977,
+        field_1977253: element.field_1977253,
+        field_1977254: element.field_1977254,
       }
     });
 
@@ -101,8 +101,8 @@ export class AppComponent{
   }
 
  
-  deleteItem(ordem: number ): void{
-    this.dataSource = this.dataSource.filter(p => p.id !== ordem)
+  deleteItem(field_1984977: any ): void{
+    this.dataSource = this.dataSource.filter(p => p.id !== field_1984977)
   }
 
   editItem(element: TelephoneList):void {
