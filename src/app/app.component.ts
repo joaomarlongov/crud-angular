@@ -70,6 +70,9 @@ export class AppComponent{
         console.log(data.results)
         this.dataSource = data.results ;
       })
+      
+      
+      
     }
 
   openDialog(element: TelephoneList | null): void {
@@ -93,16 +96,22 @@ export class AppComponent{
           this.dataSource[result.id - 1] = result;
           this.table.renderRows();
         } else {
-          this.dataSource.push(result);
-          this.table.renderRows();
+          this.telephoneListService.createTel(result)
+          .subscribe((data: TelephoneList) => {
+            this.dataSource.push(result);
+            this.table.renderRows();
+          })
         }
       }
     });
   }
 
  
-  deleteItem(field_1984977: any ): void{
-    this.dataSource = this.dataSource.filter(p => p.id !== field_1984977)
+  deleteItem(field_1984977: number ): void{
+    this.telephoneListService.deleteTel(field_1984977)
+    .subscribe(() => {
+      this.dataSource = this.dataSource.filter(p => p.id !== field_1984977)
+    })
   }
 
   editItem(element: TelephoneList):void {
