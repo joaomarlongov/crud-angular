@@ -58,7 +58,7 @@ export class AppComponent{
   title = 'crud-angular';
   @ViewChild(MatTable)
   table!: MatTable<any>
-  displayedColumns: string[] = ['field_1984977', 'field_1977253', 'field_1977254', "action"];
+  displayedColumns: string[] = ['id', 'name', 'number', "action"];
   dataSource!: TelephoneList[];
   
   constructor(
@@ -79,26 +79,32 @@ export class AppComponent{
     const dialogRef = this.dialog.open(ElementDialogComponent, {
       width: "300px",
       data: element === null ? {
-        field_1984977: null,
-        field_1977253: "",
-        field_1977254:"",
+        id: null,
+        name: "",
+        number:"",
       }: {
         id: element.id,
-        field_1984977: element.field_1984977,
-        field_1977253: element.field_1977253,
-        field_1977254: element.field_1977254,
+        name: element.name,
+        number: element.number,
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined){
+        console.log(result)
         if(this.dataSource.map(p => p.id).includes(result.id)){
-          this.dataSource[result.id - 1] = result;
-          this.table.renderRows();
+          this.telephoneListService.editTel(result)
+          .subscribe((data) => {
+            const index = this.dataSource.findIndex(t => t.id == result.id)
+            this.dataSource[index] = result
+            this.table.renderRows();
+          })
+          // this.dataSource[result.id - 1] = result;
+          // this.table.renderRows();
         } else {
           this.telephoneListService.createTel(result)
           .subscribe((data: TelephoneList) => {
-            this.dataSource.push(result);
+            this.dataSource.push(data);
             this.table.renderRows();
           })
         }
@@ -107,15 +113,16 @@ export class AppComponent{
   }
 
  
-  deleteItem(field_1984977: number ): void{
-    this.telephoneListService.deleteTel(field_1984977)
+  deleteItem(id: number ): void{
+    this.telephoneListService.deleteTel(id)
     .subscribe(() => {
-      this.dataSource = this.dataSource.filter(p => p.id !== field_1984977)
+      this.dataSource = this.dataSource.filter(p => p.id !== id)
     })
   }
 
-  editItem(element: TelephoneList):void {
-    this.openDialog(element);
-  }
+
+
+
+  
 
 }

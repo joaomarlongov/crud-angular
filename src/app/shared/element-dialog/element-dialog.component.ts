@@ -49,7 +49,7 @@ export class ElementDialogComponent {
 
 
   ngOnInit(): void{
-    if(this.data.field_1984977 != null){
+    if(this.data.id != null){
       this.isChange = true;
     } else{
       this.isChange = false;

@@ -21,9 +21,11 @@ import { TelephoneList } from "../models/TelephoneList";
 
 @Injectable()
 export class TelephoneListService {
-    telApiUrl = `https://api.baserow.io/api/database/rows/table/276982/`;
+    telApiUrl = `https://api.baserow.io/api/database/rows/table/276982/?user_field_names=true`;
     postTelApiUrl = `https://api.baserow.io/api/database/rows/table/276982/?user_field_names=true`
     delTelApiUrl =`https://api.baserow.io/api/database/rows/table/276982/`
+    updateTelApiUrl =`https://api.baserow.io/api/database/rows/table/276982/` 
+                                                                                    // {row_id}/?user_field_names=true
     token = 'kXZAlDdwLEEPS0QxCqPBHjGOYSgxDvEc';
 
     constructor(private http: HttpClient) {}
@@ -40,7 +42,8 @@ export class TelephoneListService {
     }
 
     editTel(element: TelephoneList): Observable<TelephoneList>{
-        return this.http.put<TelephoneList>(this.telApiUrl, element)
+        const headers = new HttpHeaders().set('Authorization', `Token ${this.token}`);
+        return this.http.patch<TelephoneList>(`${this.updateTelApiUrl}${element.id}/?user_field_names=true`, element, {headers})
     }
 
     deleteTel(id: number): Observable<any>{
