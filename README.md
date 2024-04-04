@@ -1,3 +1,5 @@
+![print](https://github.com/joaomarlongov/crud-angular/assets/141343614/3d0f37aa-8328-4a3e-95fc-7c02e47759dd)
+
 # CrudAngular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.3.
