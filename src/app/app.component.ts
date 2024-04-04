@@ -58,7 +58,7 @@ export class AppComponent{
   title = 'crud-angular';
   @ViewChild(MatTable)
   table!: MatTable<any>
-  displayedColumns: string[] = ['id', 'name', 'number', "action"];
+  displayedColumns: string[] = ['name', 'number', "action"];
   dataSource!: TelephoneList[];
   
   constructor(
